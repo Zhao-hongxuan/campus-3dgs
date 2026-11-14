@@ -41,7 +41,8 @@
                 position: absolute;
                 top: 18px;
                 left: 20px;
-                z-index: 30;
+                /* 起始页 z-index 35，品牌区与语言键要压在它上面 */
+                z-index: 45;
                 pointer-events: none;
                 text-shadow: 0 1px 6px rgba(0, 0, 0, 0.85);
                 max-width: min(60vw, 520px);
@@ -63,7 +64,7 @@
                 position: absolute;
                 top: 18px;
                 right: 20px;
-                z-index: 30;
+                z-index: 45;
                 display: flex;
                 gap: 2px;
                 padding: 3px;
@@ -297,6 +298,97 @@
             #netDiag a {
                 color: #9cc4ff;
             }
+            /* ---------------- 起始页：不加载模型，先选场景 ---------------- */
+            #startScreen {
+                position: absolute;
+                inset: 0;
+                z-index: 35;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 96px 20px 40px;
+                overflow-y: auto;
+                background: radial-gradient(circle at 50% 28%, #171a22 0%, #0a0a0c 72%);
+            }
+            #startScreen[hidden] {
+                display: none;
+            }
+            .start-head {
+                width: 100%;
+                max-width: 860px;
+            }
+            .start-head h2 {
+                margin: 0 0 6px;
+                font-size: 20px;
+                font-weight: 600;
+            }
+            .start-head p {
+                margin: 0 0 16px;
+                font-size: 12.5px;
+                line-height: 1.65;
+                color: #9aa3b2;
+            }
+            #startSearch {
+                width: 100%;
+                box-sizing: border-box;
+                padding: 10px 14px;
+                border-radius: 10px;
+                border: 1px solid #2b3140;
+                background: #12151c;
+                color: #e8ecf3;
+                font-family: inherit;
+                font-size: 13px;
+                outline: none;
+            }
+            #startSearch:focus {
+                border-color: #4c7ee8;
+            }
+            #startList {
+                list-style: none;
+                margin: 16px 0 0;
+                padding: 0;
+                width: 100%;
+                max-width: 860px;
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+                gap: 12px;
+            }
+            .start-card {
+                padding: 14px 16px;
+                border-radius: 12px;
+                background: #141821;
+                border: 1px solid #232a37;
+                cursor: pointer;
+                transition: border-color 0.15s, background 0.15s, transform 0.15s;
+            }
+            .start-card:hover,
+            .start-card:focus-visible {
+                border-color: #4c7ee8;
+                background: #172033;
+                transform: translateY(-1px);
+                outline: none;
+            }
+            .sc-name {
+                display: block;
+                font-size: 14px;
+                font-weight: 600;
+                color: #eef2f8;
+            }
+            .sc-meta {
+                display: block;
+                margin-top: 6px;
+                font-size: 11.5px;
+                color: #8b95a7;
+            }
+            #startEmpty {
+                margin-top: 20px;
+                font-size: 12.5px;
+                color: #8b95a7;
+            }
+            /* 起始页上不显示右上角的模型菜单（内容与卡片重复） */
+            body.at-start #modelPicker {
+                display: none;
+            }
             #loadingOverlay h2 {
                 margin: 0;
                 font-size: 16px;
@@ -439,7 +531,7 @@
                 }
             }
         </style>
-      <script type="module" crossorigin src="../assets/entry-EqZORLkK.js"></script>
+      <script type="module" crossorigin src="../assets/entry-JZ8mXHY0.js"></script>
       <link rel="modulepreload" crossorigin href="../assets/chunk-DqyIQLm2.js">
       <link rel="modulepreload" crossorigin href="../assets/chunk-CBSahm7v.js">
       <link rel="stylesheet" crossorigin href="../assets/asset-g9xjmsRe.css">
@@ -476,6 +568,7 @@
                 <button type="button" id="toggleMode" data-i18n="view.fpv">漫游模式</button>
                 <button type="button" id="btnFly" data-i18n="view.fly" hidden>一键巡游</button>
                 <button type="button" id="helpBtn" data-i18n="view.help">操作说明</button>
+                <button type="button" id="homeBtn" data-i18n="start.back">返回起始页</button>
             </div>
 
             <aside id="helpPanel" hidden>
@@ -488,6 +581,17 @@
                 </ul>
                 <button type="button" id="helpClose" data-i18n="help.close">关闭</button>
             </aside>
+
+            <!-- 起始页：不带 ?model= 时先停在这里，一个字节的模型都不下 -->
+            <div id="startScreen" hidden>
+                <div class="start-head">
+                    <h2 data-i18n="start.title">选择要浏览的场景</h2>
+                    <p data-i18n="start.hint"></p>
+                    <input id="startSearch" type="search" autocomplete="off" data-i18n-placeholder="start.search" />
+                </div>
+                <ul id="startList"></ul>
+                <p id="startEmpty" hidden data-i18n="start.empty"></p>
+            </div>
 
             <div id="loadingOverlay">
                 <h2 data-i18n="loading.title">正在加载三维模型</h2>
@@ -552,6 +656,6 @@
                 }, 2000);
             })();
         </script>
-
+
     </body>
 </html>
