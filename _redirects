@@ -1,0 +1,3 @@
+# Netlify / Cloudflare Pages 都认这个文件：把根路径指向导览页，
+# 免得别人打开域名只看到上游的 demo 页。
+/    /campus/index.html    302

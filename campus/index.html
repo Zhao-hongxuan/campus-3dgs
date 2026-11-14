@@ -536,7 +536,9 @@
                     var secs = Math.round((Date.now() - started) / 1000);
                     if (secs < 12) return;
                     var pct = (document.getElementById('loadingPercent') || {}).textContent || '';
-                    var atZero = !/\d/.test(pct) || /^(0|0\.0)\s*%/.test(pct.trim());
+                    // "已完成 0%" 也算 0：取文本里第一个百分数来判断
+                    var pctNum = parseFloat((pct.match(/([0-9]+(?:\.[0-9]+)?)\s*%/) || [])[1]);
+                    var atZero = !isFinite(pctNum) || pctNum < 1;
                     box.hidden = false;
                     box.innerHTML =
                         '仍在加载（已 ' + secs + ' 秒）' + (pct ? '，' + pct : '') +
