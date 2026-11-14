@@ -1,0 +1,50 @@
+[
+    {
+        "type": "Mark3DSingleTag",
+        "name": "poi-podium",
+        "point": [0, 0, -6],
+        "title": "Кафедра",
+        "note": "Основная зона для докладов, защит и торжественных мероприятий.",
+        "iconName": "#svgicon-jieshuo",
+        "iconColor": "#F78A14",
+        "iconOpacity": 0.9,
+        "mainTagColor": "#ffffff",
+        "mainTagBackground": "#2E2E30",
+        "mainTagOpacity": 0.85,
+        "maxVisibleDistance": 45,
+        "scale": 1,
+        "intersectable": false
+    },
+    {
+        "type": "Mark3DSingleTag",
+        "name": "poi-gate",
+        "point": [0, 0, 10],
+        "title": "Главный вход",
+        "note": "Главный вход, обращённый к внутреннему двору корпуса.",
+        "iconName": "#svgicon-position1",
+        "iconColor": "#5B99F7",
+        "iconOpacity": 0.9,
+        "mainTagColor": "#ffffff",
+        "mainTagBackground": "#2E2E30",
+        "mainTagOpacity": 0.85,
+        "maxVisibleDistance": 45,
+        "scale": 1,
+        "intersectable": false
+    },
+    {
+        "type": "Mark3DSingleTag",
+        "name": "poi-lounge",
+        "point": [8, 0, 2],
+        "title": "Зона отдыха",
+        "note": "Место для отдыха и общения между занятиями, есть сиденья и стенды.",
+        "iconName": "#svgicon-chakan",
+        "iconColor": "#4ED8B4",
+        "iconOpacity": 0.9,
+        "mainTagColor": "#ffffff",
+        "mainTagBackground": "#2E2E30",
+        "mainTagOpacity": 0.85,
+        "maxVisibleDistance": 40,
+        "scale": 1,
+        "intersectable": false
+    }
+]

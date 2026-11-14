@@ -1,0 +1,555 @@
+<!doctype html>
+<html lang="zh-CN" dir="ltr">
+    <head>
+        <title>教学楼虚拟导览 | Виртуальная экскурсия | Virtual Tour</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="description" content="3D Gaussian Splatting virtual tour of the academic building" />
+
+        <style>
+            :root {
+                --ui-fg: #eef1f6;
+                --ui-dim: #9aa3b2;
+                --ui-bg: rgba(16, 18, 24, 0.72);
+                --ui-border: rgba(255, 255, 255, 0.14);
+                --ui-accent: #5b99f7;
+            }
+            * {
+                box-sizing: border-box;
+            }
+            html,
+            body {
+                margin: 0;
+                height: 100%;
+                background: #0a0a0c;
+                color: var(--ui-fg);
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Noto Sans', Roboto, 'Helvetica Neue', Arial,
+                    sans-serif;
+                overflow: hidden;
+            }
+            #gsviewer {
+                position: fixed;
+                inset: 0;
+            }
+            canvas {
+                display: block;
+            }
+            /* ---------- 顶部品牌区 ---------- */
+            #brand {
+                position: absolute;
+                top: 18px;
+                left: 20px;
+                z-index: 30;
+                pointer-events: none;
+                text-shadow: 0 1px 6px rgba(0, 0, 0, 0.85);
+                max-width: min(60vw, 520px);
+            }
+            #brand h1 {
+                margin: 0;
+                font-size: 18px;
+                font-weight: 600;
+                letter-spacing: 0.2px;
+            }
+            #brand p {
+                margin: 4px 0 0;
+                font-size: 12px;
+                color: var(--ui-dim);
+                line-height: 1.4;
+            }
+            /* ---------- 语言切换 ---------- */
+            #langSwitch {
+                position: absolute;
+                top: 18px;
+                right: 20px;
+                z-index: 30;
+                display: flex;
+                gap: 2px;
+                padding: 3px;
+                border-radius: 9px;
+                background: var(--ui-bg);
+                border: 1px solid var(--ui-border);
+                backdrop-filter: blur(8px);
+            }
+            .lang-btn {
+                -webkit-appearance: none;
+                   -moz-appearance: none;
+                        appearance: none;
+                border: 0;
+                background: transparent;
+                color: var(--ui-dim);
+                font: inherit;
+                font-size: 12px;
+                padding: 5px 11px;
+                border-radius: 6px;
+                cursor: pointer;
+                transition: background 0.15s, color 0.15s;
+            }
+            .lang-btn:hover {
+                color: var(--ui-fg);
+            }
+            .lang-btn.active {
+                background: var(--ui-accent);
+                color: #fff;
+            }
+            /* ---------- 模型选择器 ---------- */
+            #modelPicker {
+                position: absolute;
+                top: 62px;
+                right: 20px;
+                z-index: 40;
+                width: 268px;
+                max-width: calc(100vw - 40px);
+            }
+            #modelToggle {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                width: 100%;
+                -webkit-appearance: none;
+                   -moz-appearance: none;
+                        appearance: none;
+                background: var(--ui-bg);
+                border: 1px solid var(--ui-border);
+                color: var(--ui-fg);
+                font: inherit;
+                font-size: 12px;
+                padding: 8px 12px;
+                border-radius: 9px;
+                cursor: pointer;
+                text-align: left;
+                backdrop-filter: blur(8px);
+                transition: border-color 0.15s;
+            }
+            #modelToggle:hover,
+            #modelToggle[aria-expanded='true'] {
+                border-color: var(--ui-accent);
+            }
+            #modelToggle .mp-icon {
+                color: var(--ui-accent);
+                font-size: 11px;
+            }
+            #modelCurrent {
+                flex: 1;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+            #modelToggle .mp-caret {
+                color: var(--ui-dim);
+                font-size: 10px;
+                transition: transform 0.15s;
+            }
+            #modelToggle[aria-expanded='true'] .mp-caret {
+                transform: rotate(180deg);
+            }
+            #modelPanel {
+                margin-top: 6px;
+                background: var(--ui-bg);
+                border: 1px solid var(--ui-border);
+                border-radius: 10px;
+                backdrop-filter: blur(10px);
+                box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
+                overflow: hidden;
+            }
+            #modelSearch {
+                width: 100%;
+                -webkit-appearance: none;
+                   -moz-appearance: none;
+                        appearance: none;
+                border: 0;
+                border-bottom: 1px solid var(--ui-border);
+                background: transparent;
+                color: var(--ui-fg);
+                font: inherit;
+                font-size: 12px;
+                padding: 9px 12px;
+                outline: none;
+            }
+            #modelSearch::-moz-placeholder {
+                color: var(--ui-dim);
+            }
+            #modelSearch::placeholder {
+                color: var(--ui-dim);
+            }
+            #modelList {
+                list-style: none;
+                margin: 0;
+                padding: 4px;
+                max-height: 46vh;
+                overflow-y: auto;
+            }
+            #modelList li {
+                padding: 7px 9px;
+                border-radius: 7px;
+                cursor: pointer;
+                outline: none;
+            }
+            #modelList li:hover,
+            #modelList li:focus-visible,
+            #modelList li.active {
+                background: rgba(91, 153, 247, 0.18);
+            }
+            #modelList li .mp-name {
+                display: block;
+                font-size: 12px;
+            }
+            #modelList li .mp-meta {
+                display: block;
+                margin-top: 2px;
+                font-size: 10.5px;
+                color: var(--ui-dim);
+            }
+            #modelList li .mp-check {
+                float: right;
+                color: var(--ui-accent);
+                font-size: 11px;
+            }
+            #modelEmpty {
+                margin: 0;
+                padding: 10px 12px;
+                font-size: 11.5px;
+                color: var(--ui-dim);
+            }
+            /* ---------- 左下角工具 ---------- */
+            #toolbar {
+                position: absolute;
+                left: 20px;
+                bottom: 20px;
+                z-index: 30;
+                display: flex;
+                gap: 8px;
+            }
+            #toolbar button {
+                -webkit-appearance: none;
+                   -moz-appearance: none;
+                        appearance: none;
+                background: var(--ui-bg);
+                border: 1px solid var(--ui-border);
+                color: var(--ui-fg);
+                font: inherit;
+                font-size: 12px;
+                padding: 8px 13px;
+                border-radius: 9px;
+                cursor: pointer;
+                backdrop-filter: blur(8px);
+            }
+            #toolbar button:hover {
+                border-color: var(--ui-accent);
+            }
+            /* ---------- 加载进度 ---------- */
+            #progressBarWrap {
+                display: none;
+                position: absolute;
+                top: 78px;
+                left: 20px;
+                z-index: 25;
+                width: 180px;
+                height: 4px;
+                border-radius: 10px;
+                background: rgba(255, 255, 255, 0.18);
+                overflow: hidden;
+            }
+            #progressBar {
+                width: 0%;
+                height: 100%;
+                border-radius: 10px;
+                background: linear-gradient(90deg, #5b99f7 0%, #4960d6 100%);
+                transition: width 0.2s ease-out;
+            }
+            #loadingOverlay {
+                position: absolute;
+                inset: 0;
+                z-index: 40;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+                background: radial-gradient(circle at 50% 45%, #16181f 0%, #0a0a0c 70%);
+                transition: opacity 0.6s ease-out;
+            }
+            #loadingOverlay.done {
+                opacity: 0;
+                pointer-events: none;
+            }
+            #loadingOverlay.hidden {
+                display: none;
+            }
+            /* 加载停滞时的网络诊断条：公网演示排障用，正常加载时不出现 */
+            #netDiag {
+                position: absolute;
+                left: 50%;
+                bottom: 96px;
+                transform: translateX(-50%);
+                z-index: 60;
+                max-width: min(560px, calc(100vw - 32px));
+                padding: 12px 16px;
+                border-radius: 10px;
+                background: rgba(52, 20, 22, 0.94);
+                border: 1px solid #7a3a3f;
+                color: #ffd9dc;
+                font-size: 12.5px;
+                line-height: 1.65;
+                box-shadow: 0 8px 26px rgba(0, 0, 0, 0.45);
+            }
+            #netDiag a {
+                color: #9cc4ff;
+            }
+            #loadingOverlay h2 {
+                margin: 0;
+                font-size: 16px;
+                font-weight: 600;
+            }
+            #loadingOverlay .hint {
+                font-size: 12px;
+                color: var(--ui-dim);
+            }
+            #loadingBarTrack {
+                width: min(70vw, 320px);
+                height: 4px;
+                border-radius: 10px;
+                background: rgba(255, 255, 255, 0.16);
+                overflow: hidden;
+            }
+            #loadingBarFill {
+                width: 0%;
+                height: 100%;
+                border-radius: 10px;
+                background: linear-gradient(90deg, #5b99f7 0%, #4960d6 100%);
+                transition: width 0.2s ease-out;
+            }
+            #loadingPercent {
+                font-size: 12px;
+                color: var(--ui-dim);
+                font-variant-numeric: tabular-nums;
+            }
+            /* ---------- 说明面板 ---------- */
+            #helpPanel {
+                position: absolute;
+                right: 20px;
+                bottom: 20px;
+                z-index: 35;
+                width: min(86vw, 330px);
+                padding: 16px 18px;
+                border-radius: 12px;
+                background: var(--ui-bg);
+                border: 1px solid var(--ui-border);
+                backdrop-filter: blur(10px);
+            }
+            #helpPanel h3 {
+                margin: 0 0 10px;
+                font-size: 14px;
+            }
+            #helpPanel ul {
+                margin: 0;
+                padding-left: 18px;
+                font-size: 12px;
+                line-height: 1.75;
+                color: var(--ui-dim);
+            }
+            #helpPanel button {
+                margin-top: 12px;
+                -webkit-appearance: none;
+                   -moz-appearance: none;
+                        appearance: none;
+                background: transparent;
+                border: 1px solid var(--ui-border);
+                color: var(--ui-fg);
+                font: inherit;
+                font-size: 12px;
+                padding: 6px 14px;
+                border-radius: 7px;
+                cursor: pointer;
+            }
+            /* ---------- 错误提示（NF-07：报错不白屏） ---------- */
+            #errorBox {
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                z-index: 50;
+                width: min(88vw, 380px);
+                padding: 20px 22px;
+                border-radius: 12px;
+                background: rgba(28, 18, 20, 0.94);
+                border: 1px solid rgba(255, 120, 120, 0.35);
+                text-align: center;
+            }
+            #errorBox h3 {
+                margin: 0 0 8px;
+                font-size: 15px;
+                color: #ff9c9c;
+            }
+            #errorBox p {
+                margin: 0 0 14px;
+                font-size: 12.5px;
+                line-height: 1.65;
+                color: var(--ui-dim);
+                word-break: break-word;
+            }
+            #errorBox button {
+                -webkit-appearance: none;
+                   -moz-appearance: none;
+                        appearance: none;
+                background: var(--ui-accent);
+                border: 0;
+                color: #fff;
+                font: inherit;
+                font-size: 12px;
+                padding: 8px 20px;
+                border-radius: 8px;
+                cursor: pointer;
+            }
+            [hidden] {
+                display: none !important;
+            }
+            @media (max-width: 600px) {
+                #brand h1 {
+                    font-size: 15px;
+                }
+                #brand p {
+                    display: none;
+                }
+            }
+            /*
+             * 触屏摇杆是库在运行时插到 body 上的（id=reall3dviewer-joystick-container），
+             * 默认 left: calc(50vw - 50px) 居中、bottom: 50px，正好压在我们的工具条上。
+             * 这里用 !important 覆盖成左下角，并给工具条让出高度。
+             */
+            @media (max-width: 768px) {
+                #reall3dviewer-joystick-container {
+                    left: 16px !important;
+                    bottom: 96px !important;
+                    width: 116px !important;
+                    height: 116px !important;
+                }
+                #toolbar {
+                    left: 10px;
+                    right: 10px;
+                    bottom: 10px;
+                    gap: 6px;
+                }
+                #toolbar button {
+                    flex: 1;
+                    padding: 9px 6px;
+                    font-size: 11.5px;
+                    text-align: center;
+                }
+            }
+        </style>
+      <script type="module" crossorigin src="../assets/entry-EqZORLkK.js"></script>
+      <link rel="modulepreload" crossorigin href="../assets/chunk-DqyIQLm2.js">
+      <link rel="modulepreload" crossorigin href="../assets/chunk-CBSahm7v.js">
+      <link rel="stylesheet" crossorigin href="../assets/asset-g9xjmsRe.css">
+    </head>
+
+    <body>
+        <div id="gsviewer">
+            <!-- 库内置进度条：必须位于 #gsviewer 内且使用这两个 id -->
+            <div id="progressBarWrap">
+                <div id="progressBar"></div>
+            </div>
+
+            <div id="brand">
+                <h1 data-i18n="app.title">教学楼虚拟导览</h1>
+                <p data-i18n="app.subtitle">基于 3D Gaussian Splatting 的三维数字模型</p>
+            </div>
+
+            <nav id="langSwitch" data-i18n-title="lang.switch" aria-label="Language"></nav>
+
+            <div id="modelPicker">
+                <button type="button" id="modelToggle" aria-expanded="false" aria-controls="modelPanel" data-i18n-title="model.title">
+                    <span class="mp-icon" aria-hidden="true">◈</span>
+                    <span id="modelCurrent" data-i18n="model.title">模型</span>
+                    <span class="mp-caret" aria-hidden="true">▾</span>
+                </button>
+                <div id="modelPanel" hidden>
+                    <input id="modelSearch" type="search" autocomplete="off" spellcheck="false" data-i18n-placeholder="model.search" />
+                    <ul id="modelList" role="listbox" aria-label="models"></ul>
+                    <p id="modelEmpty" hidden data-i18n="model.empty"></p>
+                </div>
+            </div>
+
+            <div id="toolbar">
+                <button type="button" id="toggleMode" data-i18n="view.fpv">漫游模式</button>
+                <button type="button" id="btnFly" data-i18n="view.fly" hidden>一键巡游</button>
+                <button type="button" id="helpBtn" data-i18n="view.help">操作说明</button>
+            </div>
+
+            <aside id="helpPanel" hidden>
+                <h3 data-i18n="help.title">操作说明</h3>
+                <ul>
+                    <li data-i18n="help.mouse"></li>
+                    <li data-i18n="help.walk"></li>
+                    <li data-i18n="help.touch"></li>
+                    <li data-i18n="help.mark"></li>
+                </ul>
+                <button type="button" id="helpClose" data-i18n="help.close">关闭</button>
+            </aside>
+
+            <div id="loadingOverlay">
+                <h2 data-i18n="loading.title">正在加载三维模型</h2>
+                <div id="loadingBarTrack"><div id="loadingBarFill"></div></div>
+                <div id="loadingPercent" data-i18n="loading.percent"></div>
+                <div class="hint" data-i18n="loading.hint"></div>
+            </div>
+
+            <div id="errorBox" hidden>
+                <h3 data-i18n="error.title">模型加载失败</h3>
+                <p id="errorMessage"></p>
+                <button type="button" id="retryBtn" data-i18n="error.retry">重试</button>
+            </div>
+
+            <div id="netDiag" hidden></div>
+        </div>
+
+        <!--
+          网络诊断（内联、非模块）：模块脚本如果因网络被掐断而根本没下载成功，
+          页面上原本只会"一直转圈、控制台干净"。这里在 12 秒后把实情说出来，
+          并点出具体失败的文件名，避免把"网络问题"误判成"模型太大"。
+        -->
+        <script>
+            (function () {
+                var failed = [];
+                addEventListener(
+                    'error',
+                    function (e) {
+                        var t = e.target;
+                        if (t && t.tagName && (t.src || t.href)) {
+                            var name = String(t.src || t.href).split('/').pop();
+                            if (failed.indexOf(name) < 0) failed.push(name);
+                        }
+                    },
+                    true
+                );
+                var started = Date.now();
+                var timer = setInterval(function () {
+                    var overlay = document.getElementById('loadingOverlay');
+                    var box = document.getElementById('netDiag');
+                    if (!overlay || !box) return;
+                    if (overlay.classList.contains('hidden') || overlay.classList.contains('done')) {
+                        clearInterval(timer);
+                        return;
+                    }
+                    var secs = Math.round((Date.now() - started) / 1000);
+                    if (secs < 12) return;
+                    var pct = (document.getElementById('loadingPercent') || {}).textContent || '';
+                    var atZero = !/\d/.test(pct) || /^(0|0\.0)\s*%/.test(pct.trim());
+                    box.hidden = false;
+                    box.innerHTML =
+                        '仍在加载（已 ' + secs + ' 秒）' + (pct ? '，' + pct : '') +
+                        '<br>' +
+                        (atZero
+                            ? '模型一个字节都还没开始下 —— 多半是网络把资源下载卡住了，不是模型太大。'
+                            : '已有下载进度但没走完，可能是网速太慢。') +
+                        (failed.length ? '<br>加载失败的文件：' + failed.slice(0, 4).join('、') : '') +
+                        '<br><a href="javascript:location.reload()">重新加载</a>' +
+                        '　同一链接换个网络（手机热点）对比一下最快。';
+                }, 2000);
+            })();
+        </script>
+
+    </body>
+</html>

@@ -1,0 +1,63 @@
+{
+    "_readme": [
+        "地面场景 · 第三版（floor_3）— LOD 流式场景配置",
+        "url 指向 gsbox autocut 生成的 lod-meta.json；大场景模式会按视锥分块下载。",
+        "以 '_' 开头的键只是说明，渲染器会忽略。",
+        "所有相对路径以本文件所在目录（/campus/）为基准。",
+        "用 ?model=/campus/floor_3.scene.json 打开；换模型只需换这个参数。",
+        "",
+        "坐标系：3DGS/COLMAP 为 Y 向下右手系，lookUp 固定 [0,-1,0]。"
+    ],
+
+    "name": "地面场景 · 第三版 | Сцена пола · версия 3 | Floor scene · v3",
+    "version": "1.0",
+    "updateDate": 20261114,
+
+    "url": "./floor_3_lod/lod-meta.json",
+    "_url_note": "gsbox autocut 输出：6 级 LOD / 7 个节点，共 57 个文件约 10 MB；首帧实测只拉 5.3 MB。",
+
+    "viewMode": 1,
+    "_viewMode_note": "1 = 第一人称漫游，3 = 第三人称。",
+
+    "player": {
+        "position": [0, 0.9, 7],
+        "speed": 3,
+        "height": 1.7,
+        "colliderTranslation": [0, -0.4, 0]
+    },
+    "_player_note": "position 取自 floor_3.meta.json（由 up2 模板复制）；speed 单位/秒。",
+
+    "collisionUrl": null,
+    "_collision_note": "本场景暂无碰撞体（没有做墙体低模），因此可以穿墙；需要时补一个 glb 再把这里指向它。",
+
+    "cameraInfo": {
+        "position": [0, -0.6, 7],
+        "lookAt": [0, -0.6, -1],
+        "lookUp": [0, -1, 0]
+    },
+    "_cameraInfo_note": "初始机位，与 floor_3.meta.json 保持一致。",
+
+    "qualityLevel": 5,
+    "sortType": 1,
+
+    "maxRenderCountOfPc": 3000000,
+    "maxRenderCountOfMobile": 2000000,
+
+    "pcEnableJoystick": true,
+    "mobileEnableJoystick": true,
+
+    "pcDownloadLimitSplatCount": 50000000,
+    "mobileDownloadLimitSplatCount": 5000000,
+
+    "showWatermark": false,
+    "watermark": "教学楼三维数字化项目组",
+
+    "meterScale": 1,
+
+    "addVirtualGround": true,
+    "autuUpdateVirtualGroundPosition": true,
+
+    "marksFile": null,
+    "marks": [],
+    "_marks_note": "本场景没有标注点；marksFile 为 null 时页面跳过下载 marks.<lang>.json，避免把大厅的标注贴到这里。"
+}

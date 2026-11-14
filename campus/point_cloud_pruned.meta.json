@@ -1,0 +1,51 @@
+{
+  "_readme": [
+    "floor_new（iteration_7000）已摆正的版本。",
+    "摆正方式：RANSAC 拟合地板平面 → 旋转到 +Y（up = -Y 约定），地面归零到 y=0.9，",
+    "          缩放 0.5745 米/模型单位（由相机离地高度反推，摆正后眼高 1.50 m）。",
+    "在摆正基础上又做了 +5 度滚转微调（修正人头向右偏的残余倾斜）。尚未做：碰撞体、巡游、标注。"
+  ],
+  "name": "floor_new 预览 | Предпросмотр | Preview",
+  "url": "./point_cloud_pruned.ply",
+  "viewMode": 1,
+  "autoRotate": false,
+  "disableTransitionEffectOnLoad": true,
+  "cameraInfo": {
+    "position": [
+      0,
+      -0.6,
+      2
+    ],
+    "lookAt": [
+      0,
+      -0.6,
+      0
+    ],
+    "lookUp": [
+      0,
+      -1,
+      0
+    ]
+  },
+  "player": {
+    "position": [
+      0,
+      0.9,
+      0
+    ],
+    "speed": 1.6,
+    "height": 1.7,
+    "colliderTranslation": [
+      0,
+      -0.4,
+      0
+    ],
+    "url": "./player.glb"
+  },
+  "meterScale": 1,
+  "qualityLevel": 5,
+  "sortType": 1,
+  "marks": [],
+  "pois": [],
+  "mobileEnableJoystick": true
+}

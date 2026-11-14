@@ -1,0 +1,26 @@
+{
+  "_readme": [
+    "模型清单：页面顶部的“模型”搜索栏读的就是这个文件。",
+    "新增一个模型 = 把 .ply 放进 public/campus/（构建后会出现在 dist/campus/），再在这里加一条。",
+    "url 相对本文件所在目录（即 /campus/）解析，写 './xxx.ply' 即可。",
+    "name 支持 zh / ru / en，缺省回落 zh；gaussians 与 bytes 只用于界面显示，可以省略。",
+    "这两个字段目前是手填的估算值，换模型后记得同步，否则列表里的体积会骗人。",
+    "source 字段只是备忘（这个 .ply 出自哪个训练检查点、做过什么处理），界面不显示。",
+    "同一个 .ply 建议配一套同名 meta 侧车（<名字>.meta.json + <名字>.<语言>.meta.json），否则机位/标注会缺。"
+  ],
+  "models": [
+    {
+      "id": "floor3lod",
+      "url": "./floor_3.scene.json",
+      "match": "./floor_3_lod/lod-meta.json",
+      "name": {
+        "zh": "地面场景 · 第三版（LOD 流式）",
+        "ru": "Сцена пола · версия 3 (LOD)",
+        "en": "Floor scene · v3 (LOD)"
+      },
+      "gaussians": 431345,
+      "bytes": 10023179,
+      "source": "floor_3.ply 经 gsbox autocut 转 SOG：6 级 LOD / 7 节点 / 57 文件 / 10.0 MB，首帧实测 5.3 MB"
+    }
+  ]
+}

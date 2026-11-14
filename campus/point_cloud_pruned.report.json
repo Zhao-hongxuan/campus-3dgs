@@ -1,0 +1,25 @@
+{
+  "input": "Real3DViewer\\public\\campus\\point_cloud_up2.ply",
+  "output": "Real3DViewer\\public\\campus\\point_cloud_pruned.ply",
+  "total": 1102822,
+  "kept": 882371,
+  "dropped": 220451,
+  "bytes_before": 273501388,
+  "bytes_after": 218829539,
+  "thresholds": {
+    "min_opacity": 0.05,
+    "max_scale": 0.5,
+    "max_above_floor": 3.0,
+    "floor_y": 0.9
+  },
+  "dropped_by": {
+    "opacity": 205386,
+    "scale": 7,
+    "height": 20058
+  },
+  "kept_stats": {
+    "opacity_p50": 0.1512889415025711,
+    "scale_p50": 0.01021608617156744,
+    "y_p50": 0.86948162317276
+  }
+}

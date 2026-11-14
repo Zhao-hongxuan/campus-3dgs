@@ -1,0 +1,118 @@
+{
+  "_readme": [
+    "试点场景（水槽间/厨房）元数据 —— .ply 走小场景通道（addModel）时使用。",
+    "文件名规则：<模型名>.<语言>.meta.json 优先，其次 <模型名>.meta.json，",
+    "            由 campus/app.js 的 resolvePlyMeta() 自动选择；切语言只换 meta，不重下模型。",
+    "把本文件复制成 kitchen.ru.meta.json / kitchen.en.meta.json 即可做三语。",
+    "本文件里的数值全部是【占位值】，必须按真实模型标定后再用。"
+  ],
+  "_unit_note": [
+    "单位约定（重要）：渲染器的物理参数全部按【米】写死 ——",
+    "  碰撞胶囊 halfHeight 0.6 / radius 0.25、内置地面盒上表面 y=0.9、",
+    "  默认眼高 1.7、默认速度 3。",
+    "所以模型必须归一化到 1 模型单位 = 1 米，且地面落在 y≈0.9（up = -Y，+Y 是向下）。",
+    "若模型不是米制，需要把【缩放+平移】烘焙进 .ply，改这里没用。"
+  ],
+  "name": "水槽间试点场景 | Пилотная сцена | Pantry Pilot",
+  "url": "./kitchen.ply",
+  "_viewMode_note": "1 = 第一人称漫游；3 = 第三人称环视。",
+  "viewMode": 1,
+  "autoRotate": false,
+  "disableTransitionEffectOnLoad": true,
+  "_cameraInfo_note": [
+    "初始机位。lookUp 固定 [0,-1,0]（up = -Y）。",
+    "position.y 要比地面【小】1.7 左右才是站立视角：地面 0.9 → 相机 y ≈ -0.8。",
+    "用控制台 campus.getView() 读出来直接粘进来。"
+  ],
+  "cameraInfo": {
+    "position": [
+      0,
+      -0.8,
+      2.5
+    ],
+    "lookAt": [
+      0,
+      -0.8,
+      0
+    ],
+    "lookUp": [
+      0,
+      -1,
+      0
+    ]
+  },
+  "_player_note": [
+    "漫游出生点。注意：角色刚体创建时 y 会被强制成 0，所以 position 的 y 不生效；",
+    "colliderTranslation 是碰撞胶囊相对刚体的偏移，默认 [0,-0.4,0]。",
+    "speed 单位是米/秒，室内建议 1.2~2。"
+  ],
+  "player": {
+    "position": [
+      0,
+      0.9,
+      0
+    ],
+    "speed": 3.6,
+    "height": 1.7,
+    "colliderTranslation": [
+      0,
+      -0.4,
+      0
+    ],
+    "url": "./player.glb"
+  },
+  "_meterScale_note": "1 模型单位 = 多少米，只影响测距/测面积工具的读数显示，不影响物理体型。",
+  "meterScale": 1,
+  "_perf_note": "qualityLevel 1~9；sortType 按实测选优。",
+  "qualityLevel": 5,
+  "sortType": 1,
+  "_collision_note": "防穿墙必需。3DGS 没有几何表面，物理引擎判断不了墙在哪，必须另做低模 GLB。",
+  "collisionUrl": "./kitchen.collision.glb",
+  "_fly_note": [
+    "巡游轨迹。必须是一维扁平数组（每 3 个数一个点），写成嵌套数组会静默变成 NaN。",
+    "小场景通道【不会】读取 flyDuration，时长走库内默认值。",
+    "配了轨迹后，模型加载完成会自动飞一次；要按钮触发就从这里删掉，改用 campus.markWaypoint() 采点。"
+  ],
+  "flyPositions": [
+    4.943,
+    -0.316,
+    -8.645,
+    5.388,
+    -0.326,
+    18.646,
+    -6.643,
+    -0.327,
+    -6.138,
+    0.467,
+    -0.454,
+    -24.627,
+    0,
+    -0.8,
+    2.5
+  ],
+  "flyTargets": [
+    8.217,
+    1.978,
+    -8.512,
+    8.664,
+    1.968,
+    18.7,
+    -9.917,
+    1.967,
+    -6.259,
+    0.536,
+    1.84,
+    -27.903,
+    0,
+    -0.8,
+    0
+  ],
+  "_marks_note": [
+    "标注点位。类型支持 Mark3DSingleTag（悬浮标签）、MarkSinglePoint、MarkDistanceLine 等。",
+    "point 是模型坐标；maxVisibleDistance 默认 10（模型单位）。",
+    "标注能否显示取决于 maxVisibleDistance 和内部 showMark 状态 —— app.js 已自动调用 $api.showMark(true)。"
+  ],
+  "marks": [],
+  "pois": [],
+  "mobileEnableJoystick": true
+}

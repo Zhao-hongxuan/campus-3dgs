@@ -1,0 +1,51 @@
+{
+  "_readme": [
+    "model/floor_3（iteration_30000）摆正后的版本，431,345 个高斯，SH 阶 2。",
+    "摆正参数：地面法向 (-0.11063,-0.76718,-0.63181)（RANSAC 主平面，与相机 up 中位一致），",
+    "         偏移 -0.83555，缩放 1.78088 米/模型单位（由相机离地 1.50 m 反推），旋转 39.90°。",
+    "尚未做：碰撞体、巡游、标注。"
+  ],
+  "name": "Floor scene · v3",
+  "url": "./floor_3.ply",
+  "viewMode": 1,
+  "autoRotate": false,
+  "disableTransitionEffectOnLoad": true,
+  "cameraInfo": {
+    "position": [
+      0,
+      -0.6,
+      7
+    ],
+    "lookAt": [
+      0,
+      -0.6,
+      -1
+    ],
+    "lookUp": [
+      0,
+      -1,
+      0
+    ]
+  },
+  "player": {
+    "position": [
+      0,
+      0.9,
+      7
+    ],
+    "speed": 1.6,
+    "height": 1.7,
+    "colliderTranslation": [
+      0,
+      -0.4,
+      0
+    ],
+    "url": "./player.glb"
+  },
+  "meterScale": 1,
+  "qualityLevel": 5,
+  "sortType": 1,
+  "marks": [],
+  "pois": [],
+  "mobileEnableJoystick": true
+}

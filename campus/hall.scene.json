@@ -1,0 +1,66 @@
+{
+    "_readme": [
+        "教学楼大厅 — Reall3dViewer 场景配置（大场景/流式模式）",
+        "以 '_' 开头的键只是给人看的说明，渲染器会忽略。",
+        "所有相对路径都以本文件所在目录为基准（/campus/）。",
+        "",
+        "必须替换的占位值（用浏览器控制台里 campus.getView() 取值）：",
+        "  player.position / cameraInfo.position / cameraInfo.lookAt / marks[].point",
+        "",
+        "坐标系：3DGS/COLMAP 为 Y 向下右手系，lookUp 固定 [0,-1,0]，",
+        "        因此“向上”是 y 更负的方向，眼高 1.7 对应 lookAt.y = position.y - 1.7。"
+    ],
+
+    "name": "教学楼大厅 | Холл учебного корпуса | Academic Building Hall",
+    "version": "1.0",
+    "updateDate": 20260916,
+
+    "url": "./hall.spx",
+
+    "_url_note": "大场景模式只接受 .spx 或 LOD 索引 .json。若用单个 .splat，请改用 addModel 通道（见 README）。",
+
+    "viewMode": 1,
+    "_viewMode_note": "1 = 第一人称漫游，3 = 第三人称。",
+
+    "player": {
+        "position": [0, 0, 0],
+        "speed": 3,
+        "height": 1.7,
+        "colliderTranslation": [0, -0.4, 0]
+    },
+    "_player_note": "position 是出生点（世界坐标，待标定）；speed 单位/秒；colliderTranslation 是碰撞胶囊相对模型的偏移。",
+
+    "collisionUrl": "./collision.glb",
+    "_collision_note": "防穿墙必需。3DGS 模型本身没有几何体，必须另做一份墙体/柱子的低模 GLB 作为碰撞体。缺失则墙可穿过。",
+
+    "cameraInfo": {
+        "position": [0, 1.7, 8],
+        "lookAt": [0, 0, 0],
+        "lookUp": [0, -1, 0]
+    },
+    "_cameraInfo_note": "初始机位，待标定。lookUp 保持 [0,-1,0]。",
+
+    "qualityLevel": 5,
+    "sortType": 1,
+    "_perf_note": "qualityLevel 1~9，影响精度与性能；sortType 按实测选优。二者先用默认值，第 8 周压测后再定。",
+
+    "maxRenderCountOfPc": 3000000,
+    "maxRenderCountOfMobile": 2000000,
+
+    "pcEnableJoystick": true,
+    "mobileEnableJoystick": true,
+
+    "pcDownloadLimitSplatCount": 50000000,
+    "mobileDownloadLimitSplatCount": 5000000,
+
+    "showWatermark": false,
+    "watermark": "教学楼三维数字化项目组",
+
+    "meterScale": 1,
+    "_meterScale_note": "长度单位换算：模型 1 单位对应多少米，用于测量工具显示真实长度。",
+
+    "addVirtualGround": true,
+    "autuUpdateVirtualGroundPosition": true,
+
+    "marks": []
+}

@@ -1,0 +1,50 @@
+[
+    {
+        "type": "Mark3DSingleTag",
+        "name": "poi-podium",
+        "point": [0, 0, -6],
+        "title": "讲台",
+        "note": "主报告区，用于讲座、答辩与开学典礼。",
+        "iconName": "#svgicon-jieshuo",
+        "iconColor": "#F78A14",
+        "iconOpacity": 0.9,
+        "mainTagColor": "#ffffff",
+        "mainTagBackground": "#2E2E30",
+        "mainTagOpacity": 0.85,
+        "maxVisibleDistance": 45,
+        "scale": 1,
+        "intersectable": false
+    },
+    {
+        "type": "Mark3DSingleTag",
+        "name": "poi-gate",
+        "point": [0, 0, 10],
+        "title": "大门",
+        "note": "主入口，正对教学楼中庭。",
+        "iconName": "#svgicon-position1",
+        "iconColor": "#5B99F7",
+        "iconOpacity": 0.9,
+        "mainTagColor": "#ffffff",
+        "mainTagBackground": "#2E2E30",
+        "mainTagOpacity": 0.85,
+        "maxVisibleDistance": 45,
+        "scale": 1,
+        "intersectable": false
+    },
+    {
+        "type": "Mark3DSingleTag",
+        "name": "poi-lounge",
+        "point": [8, 0, 2],
+        "title": "休息区",
+        "note": "课间休息与交流区域，设有座椅与展板。",
+        "iconName": "#svgicon-chakan",
+        "iconColor": "#4ED8B4",
+        "iconOpacity": 0.9,
+        "mainTagColor": "#ffffff",
+        "mainTagBackground": "#2E2E30",
+        "mainTagOpacity": 0.85,
+        "maxVisibleDistance": 40,
+        "scale": 1,
+        "intersectable": false
+    }
+]
