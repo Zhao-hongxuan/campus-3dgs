@@ -32,7 +32,7 @@
     },
     "_player_note": "position 取自 floor_3.meta.json；url 必须指向本地 player.glb，否则库会去 reall3d.com 取默认角色，ready 永远为 false → 摇杆和 WASD 都不动。",
     "collisionUrl": "./floor_3_collision.glb",
-    "_collision_note": "墙体低模（108 顶点 / 54 三角 / 2.3 KB，不可见，只参与物理）。由同学按 point_cloud_hall_2048 标定：地面 y=+0.93、天花板 y=-1.28，含窗墙、侧墙、两处凹进门洞、打开的门、窗台。走廊一侧故意留空（拍摄未覆盖）。坐标为 Y 向下，与本场景一致。",
+    "_collision_note": "碰撞体：按 floor_3 自己的 929 个相机位姿生成（相机中位高度 0.9-1.5=-0.6，与 meta 机位一致），四壁+地面+天花围住实际拍摄走到的范围，尺寸约 x -5.85..4.17 / z -9.86..5.47（含 0.35 m 余量），层高 2.5 m。y 轴向下、地面 y=0.9，与场景一致。",
     "cameraInfo": {
         "position": [
             0,
