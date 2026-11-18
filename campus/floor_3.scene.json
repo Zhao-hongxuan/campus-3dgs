@@ -32,7 +32,7 @@
   },
   "_player_note": "position 取自 floor_3.meta.json；url 必须指向本地 player.glb，否则库会去 reall3d.com 取默认角色，ready 永远为 false → 摇杆和 WASD 都不动。",
   "collisionUrl": "./floor_3_collision.glb",
-  "_collision_note": "由 tools/make_collision_from_ply.py 按 floor_3 点云地面占用轮廓生成：墙沿走廊/房间真实边界，含地面；2926 三角形",
+  "_collision_note": "极简版：只在出生点身后（z≈9.5）立一堵墙，其余不设限制；地板一块防止掉出",
   "cameraInfo": {
     "position": [
       0,
