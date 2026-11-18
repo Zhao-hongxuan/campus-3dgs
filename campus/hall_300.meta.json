@@ -1,0 +1,43 @@
+{
+  "name": "教学楼大厅（307 张） | Холл учебного корпуса | Academic Building Hall",
+  "url": "./hall_300.ply",
+  "viewMode": 1,
+  "autoRotate": false,
+  "disableTransitionEffectOnLoad": true,
+  "cameraInfo": {
+    "position": [
+      0.35,
+      -0.75,
+      0.26
+    ],
+    "lookAt": [
+      3.35,
+      -0.61,
+      0.3
+    ],
+    "lookUp": [
+      0,
+      -1,
+      0
+    ]
+  },
+  "player": {
+    "position": [
+      0.35,
+      0.9,
+      0.26
+    ],
+    "speed": 1.6,
+    "height": 1.7,
+    "colliderTranslation": [
+      0,
+      -0.4,
+      0
+    ]
+  },
+  "meterScale": 1,
+  "qualityLevel": 7,
+  "sortType": 1,
+  "marks": [],
+  "pois": []
+}

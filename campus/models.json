@@ -10,6 +10,19 @@
   ],
   "models": [
     {
+      "id": "hall300lod",
+      "url": "./hall.scene.json",
+      "match": "./hall_300_lod/lod-meta.json",
+      "name": {
+        "zh": "教学楼大厅 · LOD 流式（公网用）",
+        "ru": "Холл · LOD (для интернета)",
+        "en": "Hall · LOD streaming"
+      },
+      "gaussians": 1063431,
+      "bytes": 26833238,
+      "source": "hall_300.ply 经 gsbox autocut 转 SOG：6 级 LOD / 10 节点 / 81 文件 / 26.8 MB，单文件最大 0.9 MB"
+    },
+    {
       "id": "floor3lod",
       "url": "./floor_3.scene.json",
       "match": "./floor_3_lod/lod-meta.json",
