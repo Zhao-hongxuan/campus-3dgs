@@ -3,22 +3,22 @@
     "默认场景配置：不带 ?model= 打开页面时读这个文件。",
     "url 指向 LOD 场景的入口；hall_300.ply 单文件 251 MB 不适合公网，公网用 hall_300_lod/ 的分块。",
     "collisionUrl 用同学随模型一起提供的 hall_300_collision.glb（与 hall_300.ply 的坐标系绑定）。",
-    "player.url 必须写，否则引擎会去 reall3d.com 拉远程角色模型，漫游与摇杆都会失效且不报错。"
+    "注意：本库 FPV 开局会把角色放到 cameraInfo.lookAt 上、朝 position 方向看；站位写 lookAt，朝向由 position 决定。"
   ],
   "url": "./hall_300_lod/lod-meta.json",
-  "viewMode": 0,
+  "viewMode": 1,
   "autoRotate": false,
   "disableTransitionEffectOnLoad": true,
   "cameraInfo": {
     "position": [
-      0.35,
-      -0.75,
+      -2.65,
+      -0.7,
       0.26
     ],
     "lookAt": [
-      3.35,
-      -0.61,
-      0.3
+      0.35,
+      -0.7,
+      0.26
     ],
     "lookUp": [
       0,
