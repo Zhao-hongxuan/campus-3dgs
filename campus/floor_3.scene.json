@@ -31,8 +31,8 @@
         "url": "./player.glb"
     },
     "_player_note": "position 取自 floor_3.meta.json；url 必须指向本地 player.glb，否则库会去 reall3d.com 取默认角色，ready 永远为 false → 摇杆和 WASD 都不动。",
-    "collisionUrl": null,
-    "_collision_note": "本场景暂无碰撞体（没有做墙体低模），因此可以穿墙；需要时补一个 glb 再把这里指向它。",
+    "collisionUrl": "./floor_3_collision.glb",
+    "_collision_note": "墙体低模（108 顶点 / 54 三角 / 2.3 KB，不可见，只参与物理）。由同学按 point_cloud_hall_2048 标定：地面 y=+0.93、天花板 y=-1.28，含窗墙、侧墙、两处凹进门洞、打开的门、窗台。走廊一侧故意留空（拍摄未覆盖）。坐标为 Y 向下，与本场景一致。",
     "cameraInfo": {
         "position": [
             0,
