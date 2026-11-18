@@ -1,70 +1,70 @@
 {
-    "_readme": [
-        "地面场景 · 第三版（floor_3）— LOD 流式场景配置",
-        "url 指向 gsbox autocut 生成的 lod-meta.json；大场景模式会按视锥分块下载。",
-        "以 '_' 开头的键只是说明，渲染器会忽略。",
-        "所有相对路径以本文件所在目录（/campus/）为基准。",
-        "用 ?model=/campus/floor_3.scene.json 打开；换模型只需换这个参数。",
-        "",
-        "坐标系：3DGS/COLMAP 为 Y 向下右手系，lookUp 固定 [0,-1,0]。"
+  "_readme": [
+    "地面场景 · 第三版（floor_3）— LOD 流式场景配置",
+    "url 指向 gsbox autocut 生成的 lod-meta.json；大场景模式会按视锥分块下载。",
+    "以 '_' 开头的键只是说明，渲染器会忽略。",
+    "所有相对路径以本文件所在目录（/campus/）为基准。",
+    "用 ?model=/campus/floor_3.scene.json 打开；换模型只需换这个参数。",
+    "",
+    "坐标系：3DGS/COLMAP 为 Y 向下右手系，lookUp 固定 [0,-1,0]。"
+  ],
+  "name": "地面场景 · 第三版 | Сцена пола · версия 3 | Floor scene · v3",
+  "version": "1.0",
+  "updateDate": 20261114,
+  "url": "./floor_3_lod/lod-meta.json",
+  "_url_note": "gsbox autocut 输出：6 级 LOD / 7 个节点，共 57 个文件约 10 MB；首帧实测只拉 5.3 MB。",
+  "viewMode": 1,
+  "_viewMode_note": "1 = 第一人称漫游，3 = 第三人称。",
+  "player": {
+    "position": [
+      0,
+      0.9,
+      7
     ],
-    "name": "地面场景 · 第三版 | Сцена пола · версия 3 | Floor scene · v3",
-    "version": "1.0",
-    "updateDate": 20261114,
-    "url": "./floor_3_lod/lod-meta.json",
-    "_url_note": "gsbox autocut 输出：6 级 LOD / 7 个节点，共 57 个文件约 10 MB；首帧实测只拉 5.3 MB。",
-    "viewMode": 1,
-    "_viewMode_note": "1 = 第一人称漫游，3 = 第三人称。",
-    "player": {
-        "position": [
-            0,
-            0.9,
-            7
-        ],
-        "speed": 3,
-        "height": 1.7,
-        "colliderTranslation": [
-            0,
-            -0.4,
-            0
-        ],
-        "url": "./player.glb"
-    },
-    "_player_note": "position 取自 floor_3.meta.json；url 必须指向本地 player.glb，否则库会去 reall3d.com 取默认角色，ready 永远为 false → 摇杆和 WASD 都不动。",
-    "collisionUrl": "./floor_3_collision.glb",
-    "_collision_note": "碰撞体：按 floor_3 自己的 929 个相机位姿生成（相机中位高度 0.9-1.5=-0.6，与 meta 机位一致），四壁+地面+天花围住实际拍摄走到的范围，尺寸约 x -5.85..4.17 / z -9.86..5.47（含 0.35 m 余量），层高 2.5 m。y 轴向下、地面 y=0.9，与场景一致。",
-    "cameraInfo": {
-        "position": [
-            0,
-            -0.6,
-            7
-        ],
-        "lookAt": [
-            0,
-            -0.6,
-            -1
-        ],
-        "lookUp": [
-            0,
-            -1,
-            0
-        ]
-    },
-    "_cameraInfo_note": "初始机位，与 floor_3.meta.json 保持一致。",
-    "qualityLevel": 5,
-    "sortType": 1,
-    "maxRenderCountOfPc": 3000000,
-    "maxRenderCountOfMobile": 2000000,
-    "pcEnableJoystick": true,
-    "mobileEnableJoystick": true,
-    "pcDownloadLimitSplatCount": 50000000,
-    "mobileDownloadLimitSplatCount": 5000000,
-    "showWatermark": false,
-    "watermark": "教学楼三维数字化项目组",
-    "meterScale": 1,
-    "addVirtualGround": true,
-    "autuUpdateVirtualGroundPosition": true,
-    "marksFile": null,
-    "marks": [],
-    "_marks_note": "本场景没有标注点；marksFile 为 null 时页面跳过下载 marks.<lang>.json，避免把大厅的标注贴到这里。"
+    "speed": 3,
+    "height": 1.7,
+    "colliderTranslation": [
+      0,
+      -0.4,
+      0
+    ],
+    "url": "./player.glb"
+  },
+  "_player_note": "position 取自 floor_3.meta.json；url 必须指向本地 player.glb，否则库会去 reall3d.com 取默认角色，ready 永远为 false → 摇杆和 WASD 都不动。",
+  "collisionUrl": "./floor_3_collision.glb",
+  "_collision_note": "由 tools/make_collision_from_ply.py 按 floor_3 点云地面占用轮廓生成：墙沿走廊/房间真实边界，含地面；2926 三角形",
+  "cameraInfo": {
+    "position": [
+      0,
+      -0.6,
+      7
+    ],
+    "lookAt": [
+      0,
+      -0.6,
+      -1
+    ],
+    "lookUp": [
+      0,
+      -1,
+      0
+    ]
+  },
+  "_cameraInfo_note": "初始机位，与 floor_3.meta.json 保持一致。",
+  "qualityLevel": 5,
+  "sortType": 1,
+  "maxRenderCountOfPc": 3000000,
+  "maxRenderCountOfMobile": 2000000,
+  "pcEnableJoystick": true,
+  "mobileEnableJoystick": true,
+  "pcDownloadLimitSplatCount": 50000000,
+  "mobileDownloadLimitSplatCount": 5000000,
+  "showWatermark": false,
+  "watermark": "教学楼三维数字化项目组",
+  "meterScale": 1,
+  "addVirtualGround": true,
+  "autuUpdateVirtualGroundPosition": true,
+  "marksFile": null,
+  "marks": [],
+  "_marks_note": "本场景没有标注点；marksFile 为 null 时页面跳过下载 marks.<lang>.json，避免把大厅的标注贴到这里。"
 }
